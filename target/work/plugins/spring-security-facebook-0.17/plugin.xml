@@ -1,0 +1,12 @@
+<plugin name='spring-security-facebook' version='0.17' grailsVersion='2.4.0 &gt; *'>
+  <author>Igor Artamonov</author>
+  <authorEmail>igor@artamonov.ru</authorEmail>
+  <title>Facebook Authentication for Spring Security</title>
+  <description>Facebook Authentication for Spring Security Core plugin</description>
+  <documentation>http://splix.github.io/grails-spring-security-facebook/</documentation>
+  <type>SpringSecurityFacebookGrailsPlugin</type>
+  <resources>
+    <resource>DefaultFacebookSecurityConfig</resource>
+    <resource>com.the6hours.grails.springsecurity.facebook.FacebookAuthTagLib</resource>
+  </resources>
+</plugin>

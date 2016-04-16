@@ -1,0 +1,38 @@
+h1. connect
+
+Puts Facebook Connect button. If Facebook Javascript SDK initialization code wasn't added into current page,
+ then calling of this tag will call @:init@ automatically.
+
+Optional attributes:
+ * @type@ - @'server'@ or @'client'@, type of authentication to use. By default it uses server-side authentication (if such authentication type is enabled)
+
+Optional attributes for @server@ button (server-side authentication):
+ * @img@ - url to image for connect button (for server-side authentication only)
+ * @img-*@ - a attribute for <img> tag, like @img-id@ or @img-style@
+ * @startUrl@ - a local url that will prepare valid redirect to Facebook API, instead of default one provided by the plugin. At most cases you don't need to specify this, do it only if you know what you're doing and default implementation is not enough for your case.
+
+Optional attributes for @client@ button (client-side authentication):
+ * @permission@ - list of [Facebook Permission|https://developers.facebook.com/docs/reference/login/] as a String or List
+ * @text@ - text to display on button, *Login with Facebook* by default
+ * @skipInit@ - force to skip Facebook Javascript SDK initialization. By default this tag calls @<facebook:init />@, if it's not executed yet.
+ * @lang@ - locale, for Facebook @all.js@ (like 'en_US', 'ru_RU', etc)
+
+You can get official FB button image at [https://developers.facebook.com/docs/facebook-login/checklist/|https://developers.facebook.com/docs/facebook-login/checklist/#brandedlogin]
+
+h2. Examples:
+
+Default:
+{code}
+<facebookAuth:connect />
+{code}
+
+Use your image for connect button:
+{code}
+<facebookAuth:connect img="${resource(dir: 'images', file: 'facebook-connect.png')}" img-alt="Login to my site!"/>
+{code}
+
+Ask for email:
+{code}
+<facebookAuth:connect permission="email"/>
+{code}
+

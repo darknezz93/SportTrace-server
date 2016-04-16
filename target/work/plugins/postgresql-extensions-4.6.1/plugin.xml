@@ -1,0 +1,10 @@
+<plugin name='postgresql-extensions' version='4.6.1' grailsVersion='2.0 &gt; *'>
+  <author>Iván López</author>
+  <authorEmail>lopez.ivan@gmail.com</authorEmail>
+  <title>Grails Postgresql Extensions Plugin</title>
+  <description>Provides Hibernate user types to support for Postgresql Native Types like Array, HStore, JSON, JSONB,... as well as new criterias to query this native types
+</description>
+  <documentation>https://github.com/kaleidos/grails-postgresql-extensions/blob/master/README.md</documentation>
+  <type>PostgresqlExtensionsGrailsPlugin</type>
+  <resources />
+</plugin>
