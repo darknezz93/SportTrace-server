@@ -1,6 +1,6 @@
 -----------------------------------REJESTRACJA UZYTKOWNIKA-----------------------------------
 
-Zapytanie: sporttrace.herokuapp.com/SportTRace-Rest/api/user/create
+Zapytanie: sporttrace.herokuapp.com/api/user/create
 
 Wymagane parametry:
 
@@ -22,7 +22,7 @@ Zwracane statusy:
 
 -------------SPRAWDZENIE CZY UZYTKOWNIK O PODANYM TOKENIE ISTNIEJE W SERWISIE FACEBOOK-------
 
-Zapytanie: sporttrace.herokuapp.com/SportTRace-Rest/api/user/checkToken
+Zapytanie: sporttrace.herokuapp.com/api/user/checkToken
 
 Wymagane parametry:
 
