@@ -43,6 +43,7 @@ class FacebookAuthService {
      */
     FacebookUser create(FacebookAuthToken token) {
         log.info("Create domain for facebook user $token.uid")
+		
         //Use Spring Social Facebook to load details for current user from Facebook API
         Facebook facebook = new FacebookTemplate(token.accessToken.accessToken)
         FacebookProfile fbProfile = facebook.userOperations().userProfile
@@ -51,7 +52,6 @@ class FacebookAuthService {
         String firstName = fbProfile.firstName
         String lastName = fbProfile.lastName
 		
-		println fbProfile.username
 		
         User person = new User(
                 username: username,
@@ -65,6 +65,7 @@ class FacebookAuthService {
                 emailAddress: email
         )
         person.save(failOnError: true)
+		
 	
         UserRole.create(person, Role.findByAuthority('ROLE_USER'))
         UserRole.create(person, Role.findByAuthority('ROLE_FACEBOOK'))
@@ -74,10 +75,106 @@ class FacebookAuthService {
                 accessTokenExpires: token.accessToken.expireAt,
                 user: person
         ) 	
-        fbUser.save()
+        fbUser.save(failOnError: true)
         return fbUser
     }
-    // ********************************************************************************************
+	
+	FacebookUser create(String token, Long userId, String expiredDate) {
+		//log.info("Create domain for facebook user $token.uid")
+		//Use Spring Social Facebook to load details for current user from Facebook API
+		Facebook facebook = new FacebookTemplate(token)
+		FacebookProfile fbProfile = facebook.userOperations().userProfile
+		String email = fbProfile.email
+		String username = fbProfile.name
+		String firstName = fbProfile.firstName
+		String lastName = fbProfile.lastName
+		
+		
+		User person = new User(
+				username: username,
+				//password: token, //not really necessary
+				enabled: true,
+				accountExpired:  false,
+				accountLocked: false,
+				passwordExpired: false,
+				//fill with data loaded from Facebook API
+				name: [firstName, lastName].join(' '),
+				emailAddress: email
+		)
+		person.save(failOnError: true)
+	
+		UserRole.create(person, Role.findByAuthority('ROLE_USER'))
+		UserRole.create(person, Role.findByAuthority('ROLE_FACEBOOK'))
+		FacebookUser fbUser = new FacebookUser(
+				uid: userId,
+				accessToken: token,
+				accessTokenExpires: expiredDate,
+				user: person
+		)
+		fbUser.save(failOnError: true)
+		return fbUser
+	}
+	
+	FacebookUser updateTokenAndExpiredDate(String token, Long uid, String expiredDate) {
+		
+		FacebookUser fbUser = FacebookUser.findByUid(uid)
+		fbUser.accessToken = token
+		fbUser.accessTokenExpires = expiredDate
+		fbUser.save(failOnError: true)
+		return fbUser
+		
+		/*Facebook facebook = new FacebookTemplate(token)
+		FacebookProfile fbProfile = facebook.userOperations().userProfile
+		String email = fbProfile.email
+		String username = fbProfile.name
+		String firstName = fbProfile.firstName
+		String lastName = fbProfile.lastName
+		
+		User person = new User(
+				username: username,
+				password: token, //not really necessary
+				enabled: true,
+				accountExpired:  false,
+				accountLocked: false,
+				passwordExpired: false,
+				//fill with data loaded from Facebook API
+				name: [firstName, lastName].join(' '),
+				emailAddress: email
+		)
+		person.save(failOnError: true)
+	
+		UserRole.create(person, Role.findByAuthority('ROLE_USER'))
+		UserRole.create(person, Role.findByAuthority('ROLE_FACEBOOK'))
+		FacebookUser fbUser = new FacebookUser(
+				uid: uid,
+				accessToken: token,
+				accessTokenExpires: expiredDate,
+				user: person
+		)
+		fbUser.save(failOnError: true)
+		return fbUser */
+	} 
+	
+	boolean checkFacebookExistanceByToken(String tokenStr) {
+		
+		FacebookAuthToken token;
+		Facebook facebook = new FacebookTemplate(tokenStr)
+		FacebookProfile fbProfile
+				
+		try {
+			fbProfile = facebook.userOperations().userProfile
+			
+		} catch(Exception e) {
+			return false
+		}
+		
+		if(fbProfile != null) {
+			return true
+		}
+		return false
+	}
+	
+	// ********************************************************************************************
     //
     // You can remove X_ prefix from following methods, if you need some logic specific for your app
     //
@@ -123,6 +220,7 @@ class FacebookAuthService {
      * @param user facebook user
      */
     void X_createRoles(FacebookUser user) {
+		println "Creating role...."
         log.info("Create role for facebook user $user.uid")
         UserRole.create(user.user, Role.findByAuthority('ROLE_USER'))
         UserRole.create(user.user, Role.findByAuthority('ROLE_FACEBOOK'))

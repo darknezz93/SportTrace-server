@@ -73,6 +73,8 @@ grails.spring.bean.packages = []
 // whether to disable processing of multi part requests
 grails.web.disable.multipart=false
 
+
+
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
@@ -118,6 +120,7 @@ log4j.main = {
 
 
 // Added by the Spring Security Core plugin:
+//grails.plugin.springsecurity.active = false
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.facebook.integration.example.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.facebook.integration.example.UserRole'
 grails.plugin.springsecurity.authority.className = 'com.facebook.integration.example.Role'
@@ -137,3 +140,17 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 grails.plugin.springsecurity.facebook.domain.classname='com.facebook.integration.example.FacebookUser'
 grails.plugin.springsecurity.facebook.appId='986556161438746'
 grails.plugin.springsecurity.facebook.secret='6681eeac28a22aa4d4e35f031cc6902b'
+
+
+
+
+
+grails.plugin.springsecurity.interceptUrlMap = [
+    '/api/**': ['IS_AUTHENTICATED_ANONYMOUSLY']
+]
+grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+
+
+
+
+
