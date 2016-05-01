@@ -12,17 +12,19 @@ import grails.transaction.Transactional
 
 @Transactional
 class UserController {
-
+	
+	//generate-restful-controller sciezka do klasy domentowej
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	
+	def beforeInterceptor = [action: this.&authorize, except: {'create'; 'checkToken'}]
 	
 	FacebookAuthService facebookAuthService;
 	
 	
 	def checkToken() {
-
-		def jsonObject =  request.JSON
-		String token = jsonObject.token
+		
+		String token = params.token
 		
 		if(token) {
 			boolean result = facebookAuthService.checkFacebookExistanceByToken(token)
@@ -50,7 +52,7 @@ class UserController {
 		
 		String token = jsonObject.token
 		Long uid = Long.valueOf(jsonObject.uid)
-		String expiredDate = jsonObject.expiredDate
+		def expiredDate = jsonObject.expiredDate
 		
 		FacebookUser fbUserInstance
 		
@@ -84,15 +86,51 @@ class UserController {
 		}
 		respond fbUserInstance, [status: CREATED]
 	}
+	
+	
+	/**
+	 * Metoda do autoryzacji dostępu - w każdym zapytaniu idzie w headerze token
+	 * @return
+	 */
+	def authorize() {
+		//def jsonObject =  request.JSON
+		println("Authorize")
+		def token = request.getHeader("token")
 
-	/*
+		if(token) {
+			FacebookUser user = FacebookUser.findByAccessToken(token)
+			if(user == null) {
+				render status: UNAUTHORIZED
+				return false
+			} 
+		} else {
+			render status: NOT_ACCEPTABLE
+			return false
+		}
+		return true
+	}
+	
+	
+	def events() {
+		def id = params.id
+		def user = User.findById(id)
+		if(user != null) {
+			def events = user.events
+			respond events, [status: OK]
+		} 
+		render status: NOT_FOUND
+	}
+
+
+	
+
     def index(Integer max) {
 		
         //params.max = Math.min(max ?: 10, 100)
         //respond User.list(params), [status: OK]
-		respond User.list(), [status: OK]
+		respond FacebookUser.list(), [status: OK]
     }
-
+/*
     @Transactional
     def save(User userInstance) {
         if (userInstance == null) {

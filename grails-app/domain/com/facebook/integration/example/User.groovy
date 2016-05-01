@@ -1,4 +1,6 @@
 package com.facebook.integration.example
+import com.event.Event;
+import com.event.SportCategory;
 
 
 class User {
@@ -19,35 +21,25 @@ class User {
 
 	static transients = ['springSecurityService']
 	
+	static hasMany = [events: Event, categories: SportCategory]
+	static mappedBy = [events : "user"]
+	//static belongsTo = [event: Event]
+	
 
 	static constraints = {
 		username blank: false, unique: true
-		//password blank: false
+		events nullable: true
 		emailAddress nullable: true
 	}
-
+	
+	
 	static mapping = {
 		table '`user`'
-		//password column: '`password`'
+		//events joinTable: [name: "user_events", key: 'event_id']
 	}
 
 	Set<Role> getAuthorities() {
 		UserRole.findAllByUser(this).collect { it.role }
 	}
 
-	/*def beforeInsert() {
-		encodePassword()
-	}*/
-
-	/*def beforeUpdate() {
-		if (isDirty('password')) {
-			encodePassword()
-		}
-	} */
-	
-	/*
-	protected void encodePassword() {
-		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
-	}
-	*/
 }

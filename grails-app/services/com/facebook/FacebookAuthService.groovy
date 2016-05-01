@@ -14,6 +14,9 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate
 import com.facebook.integration.example.UserRole
 import com.facebook.integration.example.Role
 
+
+
+
 @Transactional
 class FacebookAuthService {
 
@@ -115,45 +118,16 @@ class FacebookAuthService {
 		return fbUser
 	}
 	
-	FacebookUser updateTokenAndExpiredDate(String token, Long uid, String expiredDate) {
-		
+	FacebookUser updateTokenAndExpiredDate(String token, Long uid, def expiredDate) {
+
 		FacebookUser fbUser = FacebookUser.findByUid(uid)
 		fbUser.accessToken = token
 		fbUser.accessTokenExpires = expiredDate
 		fbUser.save(failOnError: true)
 		return fbUser
-		
-		/*Facebook facebook = new FacebookTemplate(token)
-		FacebookProfile fbProfile = facebook.userOperations().userProfile
-		String email = fbProfile.email
-		String username = fbProfile.name
-		String firstName = fbProfile.firstName
-		String lastName = fbProfile.lastName
-		
-		User person = new User(
-				username: username,
-				password: token, //not really necessary
-				enabled: true,
-				accountExpired:  false,
-				accountLocked: false,
-				passwordExpired: false,
-				//fill with data loaded from Facebook API
-				name: [firstName, lastName].join(' '),
-				emailAddress: email
-		)
-		person.save(failOnError: true)
+	}
 	
-		UserRole.create(person, Role.findByAuthority('ROLE_USER'))
-		UserRole.create(person, Role.findByAuthority('ROLE_FACEBOOK'))
-		FacebookUser fbUser = new FacebookUser(
-				uid: uid,
-				accessToken: token,
-				accessTokenExpires: expiredDate,
-				user: person
-		)
-		fbUser.save(failOnError: true)
-		return fbUser */
-	} 
+	 
 	
 	boolean checkFacebookExistanceByToken(String tokenStr) {
 		
@@ -265,4 +239,7 @@ class FacebookAuthService {
         user.enabled = true
         user.passwordExpired = false
     }
+	
+	
+
 }

@@ -58,7 +58,8 @@ grails.project.dependency.resolution = {
 		
 		
 		compile 'org.springframework.social:spring-social-core:1.0.1.RELEASE'
-		compile 'org.springframework.social:spring-social-facebook:1.0.1.RELEASE'		
+		compile 'org.springframework.social:spring-social-facebook:1.0.1.RELEASE'	
+			
 		
     }
 
@@ -92,6 +93,11 @@ grails.project.dependency.resolution = {
 		compile "org.grails.plugins:postgresql-extensions:4.6.1"
 		
 		compile "org.grails.plugins:rest:0.8"
+		
+		compile "org.grails.plugins:spring-security-role-generator:0.2"
+		
+		compile "org.grails.plugins:marshallers:0.7"
+		
 		
 
         // Uncomment these to enable additional asset-pipeline capabilities
