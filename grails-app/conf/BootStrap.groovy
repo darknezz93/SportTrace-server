@@ -20,9 +20,11 @@ class BootStrap {
 	
 	
 	def createDefaultRoles() {
-		def role_user = new Role(authority: 'ROLE_USER', description: 'User role').save()
-		def role_admin = new Role(authority: 'ROLE_ADMIN', description: 'Admin role').save()
-		def role_facebook = new Role(authority: 'ROLE_FACEBOOK', description: 'Facebook role').save()
+		def role_user = new Role(authority: 'ROLE_USER').save()
+		def role_admin = new Role(authority: 'ROLE_ADMIN').save()
+		def role_facebook = new Role(authority: 'ROLE_FACEBOOK').save()
+		def role_standard = new Role(authority: 'ROLE_STANDARD').save()
+		def role_premium = new Role(authority: 'ROLE_PREMIUM').save()
 	}
 	
 	def createDefaultSportCategories() {

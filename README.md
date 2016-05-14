@@ -58,6 +58,52 @@ Zwracane statusy:
  - 200 - użytkownik istnieje w serwisie facebook
  - 404 - użytkownik nie istnieje w serwisie facebook
  - 406 - brak wymaganych parametrów
+
+
+
+## USTAWIENIE KATEGORII SPORTÓW UŻYTKOWNIKA
+
+(Domyślnie użytkownik posiada wybrane wszystkie kategorie)
+
+Zapytanie:
+```sh
+https://sporttrace.herokuapp.com/api/users/preferences
+```
+
+
+Wymagane parametry:
+ - name - nazwa kategorii sportowej
+
+
+Format przesyłanych parametrów: **JSON**
+
+Metoda: **PUT**
+
+Przykład:
+```sh
+[
+  {
+    "name": "BASKETBALL"
+  },
+  {
+    "name": "VOLLEYBALL"
+  },
+  {
+    "name": "RUGBY"
+  }
+]
+```
+
+
+Zwracane statusy:
+
+- 406 - brak wszystkich wymaganych parametrów
+- 401 - nieudana autoryzacja
+- 200 - kategorie sportowe użytkownika zostały zaktualizowane (zwraca JSON z użytkownikiem)
+
+
+
+
  
 ## POBRANIE WYDARZEŃ STWORZONYCH PRZEZ UŻYTKOWNIKA O PODANYM ID
 
@@ -114,6 +160,25 @@ Zwracane statusy:
  - 200 - wydarzenia zostają zwróceni poprawnie
  - 401 - nieudana autoryzacja 
 
+
+
+
+## POBRANIE WYDARZEŃ DOSTOSOWANYCH DO UŻYTKOWNIKA
+
+Zapytanie: 
+```sh
+https://sporttrace.herokuapp.com/api/events/adjust
+```
+Wymagane parametry:
+ - brak
+
+Format przesyłanych parametrów: **brak**
+
+Metoda: **GET**
+
+Zwracane statusy:
+ - 200 - wydarzenia zostają zwróceni poprawnie
+ - 401 - nieudana autoryzacja  
 
 
 

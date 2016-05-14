@@ -24,6 +24,22 @@ class EventController {
         params.max = Math.min(max ?: 10, 100)
         respond Event.list(params), [status: OK]
     }
+	
+	def adjustEvents() {
+		def token = request.getHeader("token")
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		User user = fbUser.user
+		
+		List<Event> events = new ArrayList<>();
+		
+		for(SportCategory category: user.categories) {
+			if(Event.findAllByCategory(category)) {
+				events.add(Event.findAllByCategory(category))
+			}
+		}
+		
+		respond events, [status: OK]
+	}
 
     @Transactional
     def save() {
@@ -59,8 +75,6 @@ class EventController {
 		
 		eventInstance.user = user
 		
-		
-
         eventInstance.validate()
         if (eventInstance.hasErrors()) {
 			println eventInstance.errors

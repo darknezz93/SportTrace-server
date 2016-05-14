@@ -13,6 +13,7 @@ import org.springframework.social.facebook.api.FacebookProfile
 import org.springframework.social.facebook.api.impl.FacebookTemplate
 import com.facebook.integration.example.UserRole
 import com.facebook.integration.example.Role
+import com.event.SportCategory
 
 
 
@@ -67,6 +68,8 @@ class FacebookAuthService {
                 name: [firstName, lastName].join(' '),
                 emailAddress: email
         )
+		
+		person.categories = SportCategory.list()
         person.save(failOnError: true)
 		
 	
@@ -104,10 +107,14 @@ class FacebookAuthService {
 				name: [firstName, lastName].join(' '),
 				emailAddress: email
 		)
+		
+		person.categories = SportCategory.list()
+		
 		person.save(failOnError: true)
 	
 		UserRole.create(person, Role.findByAuthority('ROLE_USER'))
 		UserRole.create(person, Role.findByAuthority('ROLE_FACEBOOK'))
+		UserRole.create(person, Role.findByAuthority('ROLE_STANDARD'))
 		FacebookUser fbUser = new FacebookUser(
 				uid: userId,
 				accessToken: token,

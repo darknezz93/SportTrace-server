@@ -5,6 +5,7 @@ package com.facebook.integration.example
 import static org.springframework.http.HttpStatus.*
 
 import com.facebook.FacebookAuthService;
+import com.user.UserService
 
 import grails.transaction.Transactional
 
@@ -17,9 +18,10 @@ class UserController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 	
-	def beforeInterceptor = [action: this.&authorize, except: {'create'; 'checkToken'}]
+	def beforeInterceptor = [action: this.&authorize, except: ['create', 'checkToken']]
 	
 	FacebookAuthService facebookAuthService;
+	UserService userService;
 	
 	
 	def checkToken() {
@@ -119,6 +121,37 @@ class UserController {
 			respond events, [status: OK]
 		} 
 		render status: NOT_FOUND
+	}
+	
+	
+	def updatePreferences() {
+		println("Update Preferences")
+
+		def token = request.getHeader("token")
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		User user = fbUser.user
+
+		def jsonObject =  request.JSON
+
+		List<String> sportCategoriesNames = new ArrayList<>()
+
+		for(int i = 0; i < jsonObject.size(); i++){
+			if(!jsonObject[i].name) {
+				render status: NOT_ACCEPTABLE
+				return
+			} else {
+				sportCategoriesNames.add(jsonObject[i].name)
+			}
+		}
+		
+		for(String category: sportCategoriesNames) {
+			println(category)
+		}
+		
+		userService.updateUserSportCategories(user, sportCategoriesNames)
+
+
+		respond fbUser, [status: OK]
 	}
 
 
