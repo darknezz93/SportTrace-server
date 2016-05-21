@@ -1,3 +1,4 @@
+import com.marshaller.AreaMarshaller
 import com.marshaller.EventMarshaller
 import com.marshaller.FacebookUserMarshaller
 import com.marshaller.SportCategoryMarshaller
@@ -13,7 +14,8 @@ beans = {
 				new UserMarshaller(),
 				new FacebookUserMarshaller(),
 				new SportCategoryMarshaller(),
-				new EventMarshaller()
+				new EventMarshaller(),
+				new AreaMarshaller()
 		]
 	}
 	

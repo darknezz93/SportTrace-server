@@ -29,6 +29,10 @@ class UrlMappings {
 		
 		// SPORT CATEGORY
 		"/api/sportCategories"(controller: "SportCategory", action: "all", method: "GET", parseRequest: true)
+		
+		// AREA
+		"/api/users/areas"(controller: "Area", action: "addUserArea", method: "POST", parseRequest: true)
+		"/api/users/areas"(controller: "Area", action: "updateUserArea", method: "PUT", parseRequest: true)
 			
 		
 	}

@@ -126,6 +126,80 @@ Zwracane statusy:
 
 
 
+## DODAWANIE OBSZARU WYSZUKIWANIA DLA UŻYTKOWNIKA
+
+Zapytanie:
+```sh
+https://sporttrace.herokuapp.com/api/users/areas
+```
+
+
+Wymagane parametry:
+ - name - unikalna nazwa obszaru
+ - longitude - długość geograficzna
+ - latitude - szerokość geograficzna
+ - radius - promień obszaru
+
+Format przesyłanych parametrów: **JSON**
+
+Metoda: **POST**
+
+Przykład:
+```sh
+{
+    "name": "Obszar1",
+    "longitude": 54.3234,
+    "latitude": 16.9986,
+    "radius": 2.0
+}
+```
+
+
+Zwracane statusy:
+
+- 406 - brak wszystkich wymaganych parametrów bądź brak tokena w nagłówku
+- 409 - obszar o podanej nazwie już istnieje
+- 200 - obszar wyszukiwania został stworzony poprawnie
+
+
+
+
+
+## AKTUALIZOWANIE OBSZARU WYSZUKIWANIA DLA UŻYTKOWNIKA
+
+Zapytanie:
+```sh
+https://sporttrace.herokuapp.com/api/users/areas
+```
+
+
+Wymagane parametry:
+ - name - unikalna nazwa obszaru
+ - longitude - długość geograficzna
+ - latitude - szerokość geograficzna
+ - radius - promień obszaru
+
+Format przesyłanych parametrów: **JSON**
+
+Metoda: **PUT**
+
+Przykład:
+```sh
+{
+    "name": "Obszar1",
+    "longitude": 54.3234,
+    "latitude": 16.9986,
+    "radius": 3.0
+}
+```
+
+
+Zwracane statusy:
+
+- 404 - nie istnieje obszar wyszukiwania o podanej nazwie
+- 406 - brak wszystkich wymaganych parametrów bądź brak tokena w nagłówku
+- 200 - obszar wyszukiwania został zaktualizowany poprawnie
+
 
  
 ## POBRANIE WYDARZEŃ STWORZONYCH PRZEZ UŻYTKOWNIKA O PODANYM ID

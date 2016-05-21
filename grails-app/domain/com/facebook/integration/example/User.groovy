@@ -11,7 +11,7 @@ class User {
 	String username
 	//String password
 	String name
-	String emailAddress;
+	String emailAddress
 	
 	
 	boolean enabled = true
@@ -24,12 +24,14 @@ class User {
 	static hasMany = [events: Event, categories: SportCategory]
 	static mappedBy = [events : "user"]
 	//static belongsTo = [event: Event]
+	static belongsTo = [area: Area]
 	
 
 	static constraints = {
 		username blank: false, unique: true
 		events nullable: true
 		emailAddress nullable: true
+		area nullable: true
 	}
 	
 	

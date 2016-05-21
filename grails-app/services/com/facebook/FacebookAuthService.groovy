@@ -55,7 +55,7 @@ class FacebookAuthService {
         String username = fbProfile.name
         String firstName = fbProfile.firstName
         String lastName = fbProfile.lastName
-		
+	
 		
         User person = new User(
                 username: username,

@@ -15,6 +15,7 @@ class UserMarshaller {
 				name: user.name,
 				username: user.username,
 				emailAddress: user.emailAddress,
+				area: user.area,
 				role: UserRole.findAllByUser(user).role.authority,
 				categories: user.categories
 				]
