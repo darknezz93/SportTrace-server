@@ -26,7 +26,7 @@ Przykład:
 {
     "token": "987dfds8fgds7g6f7g6fd7g678fd6g7fd6g7df6g7dfg",
     "uid" : 879898, 
-    "expiredDate": "2016-07-16 13:10:50.042"
+    "expiredDate": "1568460250030"
 }
 ```
 
