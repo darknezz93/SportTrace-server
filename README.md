@@ -44,7 +44,7 @@ Zwracane statusy:
 
 Zapytanie: 
 ```sh
-https://lling-grails.herokuapp.com/api/users/authenticate
+https://sporttrace.herokuapp.com/api/users/authenticate
 ```
 Wymagane parametry:
  - token w nagłówku
