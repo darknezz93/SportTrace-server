@@ -16,6 +16,7 @@ class UrlMappings {
 		"/api/users/$id/events"(controller: "user", action: "events", method: "GET", parseRequest: true)
 		"/api/users"(controller: "user", action: "index", method: "GET", parseRequest: true)
 		"/api/users/preferences"(controller: "user", action: "updatePreferences", method: "PUT", parseRequest: true)
+		"/api/users/authenticate"(controller: "user", action: "authenticate", method: "GET", parseRequest: true)
 		
 		
 		// EVENT

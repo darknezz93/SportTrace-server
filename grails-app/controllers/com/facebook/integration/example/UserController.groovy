@@ -18,10 +18,43 @@ class UserController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 	
-	def beforeInterceptor = [action: this.&authorize, except: ['create', 'checkToken']]
+	def beforeInterceptor = [action: this.&authorize, except: ['create', 'checkToken', 'authenticate']]
 	
 	FacebookAuthService facebookAuthService;
 	UserService userService;
+	
+	
+	
+	def authenticate() {
+		
+		def token = request.getHeader("token")
+		if(!token) {
+			render status: NOT_ACCEPTABLE
+			return
+		}
+		
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		
+		if(!fbUser) {
+			render status: NOT_FOUND
+			return
+		} else {
+			
+			def expireDate = fbUser.accessTokenExpires
+			Date date = new Date(expireDate);
+			Date currentDate = new Date();
+			
+			if(currentDate.after(date)) {
+				render status: UNAUTHORIZED
+				return
+			}
+
+		}
+		
+		User user = fbUser.user;
+		respond fbUser, [status: OK]
+		
+	}
 	
 	
 	def checkToken() {
@@ -75,6 +108,7 @@ class UserController {
 					FacebookUser uidUser = FacebookUser.findByUid(uid)
 					if(uidUser) {
 						fbUserInstance = facebookAuthService.updateTokenAndExpiredDate(token, uid, expiredDate)
+						respond fbUserInstance, [status: OK]
 					}
 					else {
 						fbUserInstance = facebookAuthService.create(token, uid, expiredDate)
@@ -86,6 +120,8 @@ class UserController {
 			render status: NOT_ACCEPTABLE
 			return
 		}
+		
+		
 		respond fbUserInstance, [status: CREATED]
 	}
 	

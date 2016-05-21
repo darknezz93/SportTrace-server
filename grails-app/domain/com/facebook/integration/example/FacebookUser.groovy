@@ -7,7 +7,7 @@ class FacebookUser {
 
     Long uid
     String accessToken
-    Date accessTokenExpires
+    long accessTokenExpires
 
     static belongsTo = [user: User]
 	

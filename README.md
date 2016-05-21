@@ -40,6 +40,29 @@ Zwracane statusy:
 
 
 
+## AUTORYZACJA UŻYTKOWNIKA
+
+Zapytanie: 
+```sh
+https://lling-grails.herokuapp.com/api/users/authenticate
+```
+Wymagane parametry:
+ - token w nagłówku
+
+Format przesyłanych parametrów: **BRAK**
+
+Metoda: **GET**
+
+Zwracane statusy:
+
+ - 200 - użytkownik istnieje w systemie (zwraca JSON z użytkownikiem)
+ - 401 - wygasła data ważnosci tokena, ale użytkownik istnieje w systemie 
+ - 404 - użytkownik nie istnieje w systemie
+ - 406 - brak tokena w nagłówku zapytania
+
+
+
+
 ## SPRAWDZENIE CZY TOKEN NALEŻY DO UŻYTKOWNIKA FACEBOOKA
 
 Zapytanie: 
