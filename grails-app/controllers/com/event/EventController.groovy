@@ -19,6 +19,7 @@ class EventController {
 	//UserController userController = new UserController()
 	def beforeInterceptor = [action: this.&authorize]
 	
+	EventService eventService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -30,13 +31,13 @@ class EventController {
 		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
 		User user = fbUser.user
 		
-		List<Event> events = new ArrayList<>();
+		List<Event> events = eventService.getAdjustedEvents(user)
 		
-		for(SportCategory category: user.categories) {
+		/*for(SportCategory category: user.categories) {
 			if(Event.findAllByCategory(category)) {
 				events.add(Event.findAllByCategory(category))
 			}
-		}
+		}*/
 		
 		respond events, [status: OK]
 	}

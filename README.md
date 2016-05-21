@@ -262,6 +262,10 @@ Zwracane statusy:
 
 ## POBRANIE WYDARZEŃ DOSTOSOWANYCH DO UŻYTKOWNIKA
 
+Pobiera wydarzenia na podstawie ustawionych kategorii sportowych oraz obszaru wyszukiwania uzytkownika.
+Jeżeli kategorie nie były ustawiane a obszar był ustawiony zwraca wszystkie wydarzenia w wybranym obszarze.
+Jeśli ani kategorie ani obszar nie zostały ustawione to zwraca wszystkie wydarzenia.
+
 Zapytanie: 
 ```sh
 https://sporttrace.herokuapp.com/api/events/adjust
