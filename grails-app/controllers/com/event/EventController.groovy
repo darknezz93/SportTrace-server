@@ -207,7 +207,11 @@ class EventController {
 		
 		for(User usr: appliers) {
 			event.addToUsers(usr)
-			event.removeFromAppliers(usr)
+			for(User newUser: event.appliers) {
+				if(newUser.id == usr.id) {
+					event.appliers.remove(newUser)
+				}
+			}
 			event.missingParticipantsNumber -= 1
 		}
 
