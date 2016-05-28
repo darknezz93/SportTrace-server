@@ -14,7 +14,7 @@ class Event {
 	User user
 	SportCategory category;
 	
-	static hasMany = [users: User]
+	static hasMany = [users: User, appliers: User]
 	//static hasOne = [category: Category]
 	static belongsTo = [user: User, category: SportCategory]
 	

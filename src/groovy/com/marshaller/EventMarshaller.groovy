@@ -24,7 +24,8 @@ class EventMarshaller {
 				location: event.location,
 				owner: event.user,
 				sportCategory: event.category,
-				participants: event.users
+				participants: event.users.id,
+				appliers: event.appliers != null ? event.appliers.id : []
 				]
 			
 		}

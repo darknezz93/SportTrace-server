@@ -71,10 +71,11 @@ class EventController {
 		
 		Event eventInstance = new Event(category: sportCategory, date: jsonObject.date, latitude: jsonObject.latitude,
 			longitude: jsonObject.longitude, special: jsonObject.special, name: jsonObject.name, location: jsonObject.location,
-			participantsNumber: jsonObject.participantsNumber, missingParticipantsNumber: jsonObject.participantsNumber)	 
-		
+			participantsNumber: jsonObject.participantsNumber, missingParticipantsNumber: jsonObject.participantsNumber - 1)	 
 		
 		eventInstance.user = user
+		eventInstance.addToUsers(user)
+		
 		
         eventInstance.validate()
         if (eventInstance.hasErrors()) {
@@ -87,25 +88,132 @@ class EventController {
         respond eventInstance, [status: CREATED]
     }
 	
-	/*
-    @Transactional
-    def update(Event eventInstance) {
+	
+	def applyToEvent() {
 		
-        if (eventInstance == null) {
-            render status: NOT_FOUND
-            return
-        }
+		def token = request.getHeader("token")
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		User user = fbUser.user
+		
+		def id = params.id
+		
+		Event event = Event.findById(id)
+		
+		if(!event) {
+			render status: NOT_FOUND
+			return
+		}
+		
+		if(event.appliers.id.contains(user.id) || event.users.id.contains(user.id)) {
+			render status: CONFLICT
+			return
+		}
+		
+		event.addToAppliers(user)
+		
+		render status: OK
+	}
+	
+	def resignFromEvent() {
+		
+		def token = request.getHeader("token")
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		User user = fbUser.user
+		
+		def id = params.id
+		
+		Event event = Event.findById(id)
+		
+		if(!event) {
+			render status: NOT_FOUND
+			return
+		}
+		
+		if(event.user == user) {
+			render status: FORBIDDEN
+			return
+		}
+		
+		for(User usr: event.users) {
+			if(usr.id == user.id) {
+				event.users.remove(usr)
+				event.missingParticipantsNumber += 1
+			}
+		}
+		
+		for(User usr: event.appliers) {
+			if(usr.id == user.id) {
+				event.appliers.remove(usr)
+			}
+		}
+		
+		println(user)
+		println("Participants: " + event.users)
+		println("Appliers: " + event.appliers)
+		
+		respond event, [status: OK]
+		
+	}
+	
+	
+	def acceptAppliers() {
 
-        eventInstance.validate()
-        if (eventInstance.hasErrors()) {
-            render status: NOT_ACCEPTABLE
-            return
-        }
+		def token = request.getHeader("token")
+		FacebookUser fbUser = FacebookUser.findByAccessToken(token)
+		User user = fbUser.user
+		
+		def id = params.id
+		
+		Event event = Event.findById(id)
+		
+		if(!event) {
+			render status: NOT_FOUND
+			return
+		}
+		
+		// moze akceptowac tylko wlasciciel wydarzenia
+		if(event.user != user) {
+			render status: UNAUTHORIZED
+			return
+		}
+		
+		def jsonObject =  request.JSON
+		
+		if(!jsonObject.appliers) {
+			render status: NOT_ACCEPTABLE
+			return
+		}
+		
+		def appliersIds = jsonObject.appliers
+		
+		List<User> appliers = new ArrayList<User>();
+		
+		for(int i = 0 ; i < appliersIds.size(); i++) {
+			User applierUser = User.findById(appliersIds.get(i))
+			if(!applierUser) {
+				render status: NOT_FOUND
+				return
+			}
+			appliers.add(applierUser)
+		}
+		
+		for(User usr: appliers) {
+			if(!event.appliers.id.contains(usr.id)) {
+				render status: NOT_FOUND
+				println("Nie ma takiego w appliers wydarzenia")
+				return
+			}
+		}
+		
+		for(User usr: appliers) {
+			event.addToUsers(usr)
+			event.removeFromAppliers(usr)
+			event.missingParticipantsNumber -= 1
+		}
 
-        eventInstance.save flush:true
-        respond eventInstance, [status: OK]
-    }
-    */
+		respond event, [status: OK]
+	}
+	
 
     @Transactional
     def delete(Event eventInstance) {
@@ -120,10 +228,7 @@ class EventController {
     }
 	
 	
-	
-	
-	
-	
+
 	
 	/**
 	 * Metoda do autoryzacji dostępu - w każdym zapytaniu idzie w headerze token

@@ -320,6 +320,7 @@ Przykład:
 }
 ```
 
+WAŻNE INFO: Listy **participants** oraz **apliers** zawierają id użytkowników odpowiednio biorących udział w wydarzeniu i użytkowników ubiegających się o wzięcie udziału w wydarzeniu. Organizator zawsze jest przypisany jako biorący udział w wydarzeniu.
 
 Zwracane statusy:
 
@@ -370,3 +371,89 @@ Zwracane statusy:
  - 200 - kategorie sportowe zostają zwrócone poprawnie
  - 401 - nieudana autoryzacja
  - 404 - błąd w składni lub zapytanie nie istnieje
+
+
+
+
+ ## APLIKOWANIE DO WZIĘCIA UDZIAŁU W WYDARZENIU
+
+ Zapisuje użytkownika do listy **appliers** wydarzenia, która zawiera osoby ubiegające się o wzięcie udziału w wydarzeniu i oczekujące na akceptację przez organizatora
+
+Zapytanie:
+```sh
+https://sporttrace.herokuapp.com/api/events/apply/7
+```
+
+
+Wymagane parametry:
+ - id - id wydarzenia, w którym użytkownik chce wziąść udział
+
+
+Format przesyłanych parametrów: **W zapytaniu**
+
+Metoda: **PUT**
+
+
+Zwracane statusy:
+
+- 404 - wydarzenie o podanym id nie istnieje
+- 409 - użytkownik już jest przypisany do wydarzenia lub jest a liście oczekujących na akceptację
+- 200 - użytkownik został zapisany do listy oczekujących na akceptację
+
+
+
+ ## REZYGNAZJA Z WZIĘCIA UDZIAŁU W WYDARZENIU
+
+ Usuwa zarówno z listy **participants** oraz **appliers** wydarzenia (w zależności od tego czy użytkownik już bierze udział w wydarzeniu czy dopiero się ubiega)
+
+Zapytanie:
+```sh
+http://localhost:8080/SportTrace-Rest/api/events/resign/48
+```
+
+
+Wymagane parametry:
+ - id - id wydarzenia z którego chce zrezygnować użytkownik
+
+
+Format przesyłanych parametrów: **W zapytaniu**
+
+Metoda: **POST**
+
+
+Zwracane statusy:
+
+- 404 - wydarzenie o podanym id nie istnieje
+- 403 - użytkownik jest właścicielem wydarzenia i nie może zrezygnować z brania w nim udziału
+- 200 - użytkownik został usunięty z wydarzenia ( zwraca JSON z zaktualizowanym wydarzeniem)
+
+
+## AKCEPTACJA UŻYTKOWNIKÓW, KTÓRZY UBIEGAJĄ SIĘ O WZIĘCIE UDZIAŁU W WYDARZENIU
+
+Zapytanie:
+```sh
+https://sporttrace.herokuapp.com/api/events/appliers/accept/$id"
+```
+
+
+Wymagane parametry:
+ - id (w zapytaniu) - id wydarzenia
+ - appliers (JSON) - tablica id użytkowników. Użytkownicy muszą znajdować się na liscie appliers wydarzenia
+
+Format przesyłanych parametrów: **JSON + w zapytaniu**
+
+Metoda: **POST**
+
+Przykład:
+```sh
+{
+    "appliers" : [41, 77, 11]
+}
+```
+
+Zwracane statusy:
+
+- 404 - wydarzenie o podanym id nie istnieje LUB lista appliers wydarzenia nie ma wszystkich id wymienionych uzytkowników LUB nie wszyscy wymienieni uzytkownicy istnieją w systemie 
+- 401 - brak autoryzacji LUB użytkownik nie jest właścicielem wydarzenia
+- 406 - brak tokena autoryzacyjnego LUB brak wszystkich wymaganych parametrów
+- 200 - użytkownicy zostali przypisani do użytkowników biorących udział w wydarzeniu (zwraca JSON z zaktualizowanym wydarzeniem)
