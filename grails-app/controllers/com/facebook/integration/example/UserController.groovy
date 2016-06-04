@@ -80,7 +80,7 @@ class UserController {
 		
 		def jsonObject =  request.JSON
 		
-		if(!jsonObject.token || !jsonObject.uid || !jsonObject.expiredDate) {
+		if(!jsonObject.token || !jsonObject.uid || !jsonObject.expiredDate || !jsonObject.regId) {
 			render status: NOT_ACCEPTABLE
 			return
 		}
@@ -88,6 +88,7 @@ class UserController {
 		String token = jsonObject.token
 		Long uid = Long.valueOf(jsonObject.uid)
 		def expiredDate = jsonObject.expiredDate
+		String regId = jsonObject.regId
 		
 		FacebookUser fbUserInstance
 		
@@ -111,7 +112,7 @@ class UserController {
 						respond fbUserInstance, [status: OK]
 					}
 					else {
-						fbUserInstance = facebookAuthService.create(token, uid, expiredDate)
+						fbUserInstance = facebookAuthService.create(token, uid, expiredDate, regId)
 					}
 				}
 			}

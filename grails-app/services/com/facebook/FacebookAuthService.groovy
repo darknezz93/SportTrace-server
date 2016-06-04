@@ -85,7 +85,7 @@ class FacebookAuthService {
         return fbUser
     }
 	
-	FacebookUser create(String token, Long userId, String expiredDate) {
+	FacebookUser create(String token, Long userId, String expiredDate, String regId) {
 		//log.info("Create domain for facebook user $token.uid")
 		//Use Spring Social Facebook to load details for current user from Facebook API
 		Facebook facebook = new FacebookTemplate(token)
@@ -103,6 +103,7 @@ class FacebookAuthService {
 				accountExpired:  false,
 				accountLocked: false,
 				passwordExpired: false,
+				regId: regId,
 				//fill with data loaded from Facebook API
 				name: [firstName, lastName].join(' '),
 				emailAddress: email

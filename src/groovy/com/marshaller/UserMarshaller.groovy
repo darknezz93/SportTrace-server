@@ -14,6 +14,7 @@ class UserMarshaller {
 			return [
 				id: user.id,
 				uid: FacebookUser.findByUser(user).uid ,
+				regId: user.regId,
 				name: user.name,
 				username: user.username,
 				emailAddress: user.emailAddress,

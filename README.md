@@ -16,6 +16,7 @@ Wymagane parametry:
  - token - token użytkownika facebooka
  - uid - id użytkownika facebooka
  - expiredDate - data wygaśnięcia tokenu
+ - regId - identyfikator aplikacji GCM
 
 Format przesyłanych parametrów: **JSON**
 
@@ -26,7 +27,8 @@ Przykład:
 {
     "token": "987dfds8fgds7g6f7g6fd7g678fd6g7fd6g7df6g7dfg",
     "uid" : 879898, 
-    "expiredDate": "1568460250030"
+    "expiredDate": "1568460250030",
+    "regId" : "87fsdf7d8f79d8fs78"
 }
 ```
 

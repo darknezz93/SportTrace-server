@@ -12,6 +12,7 @@ class User {
 	//String password
 	String name
 	String emailAddress
+	String regId;
 	
 	
 	boolean enabled = true
@@ -32,6 +33,7 @@ class User {
 		events nullable: true
 		emailAddress nullable: true
 		area nullable: true
+		regId nullable: true
 	}
 	
 	
