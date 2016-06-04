@@ -207,7 +207,7 @@ class UserController {
 		
 		User user = User.findById(34)
 		
-		notificationService.notifyApplicationUser(user, "Znaleziono nowe wydarzenie w pobliżu", "Nowe wydarzenie ", 1)
+		notificationService.notifyApplicationUser(user, "Znaleziono nowe wydarzenie w pobliżu", "Nowe wydarzenie ", 1, 2)
 	}
 /*
     @Transactional

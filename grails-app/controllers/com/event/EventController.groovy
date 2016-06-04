@@ -4,10 +4,12 @@ package com.event
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
 import com.facebook.FacebookAuthService
 import com.facebook.integration.example.FacebookUser
 import com.facebook.integration.example.User
 import com.facebook.integration.example.UserController
+import com.notification.NotificationService
 
 
 @Transactional
@@ -20,6 +22,7 @@ class EventController {
 	def beforeInterceptor = [action: this.&authorize]
 	
 	EventService eventService
+	NotificationService notificationService
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -85,6 +88,10 @@ class EventController {
         }
 
         eventInstance.save flush:true
+		
+		notificationService.notifyUsersAboutEvent(user, eventInstance)
+		
+		
         respond eventInstance, [status: CREATED]
     }
 	
@@ -110,6 +117,8 @@ class EventController {
 		}
 		
 		event.addToAppliers(user)
+		
+		notificationService.notifyOrganizerAboutApplier(event.user , user, event)
 		
 		render status: OK
 	}
@@ -207,6 +216,9 @@ class EventController {
 		
 		for(User usr: appliers) {
 			event.addToUsers(usr)
+			
+			notificationService.notifyApplierAboutAcceptance(usr, event)
+			
 			for(User newUser: event.appliers) {
 				if(newUser.id == usr.id) {
 					event.appliers.remove(newUser)
@@ -214,6 +226,9 @@ class EventController {
 			}
 			event.missingParticipantsNumber -= 1
 		}
+		
+		
+		
 
 		respond event, [status: OK]
 	}
