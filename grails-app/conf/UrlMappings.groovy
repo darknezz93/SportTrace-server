@@ -36,6 +36,11 @@ class UrlMappings {
 		// AREA
 		"/api/users/areas"(controller: "Area", action: "addUserArea", method: "POST", parseRequest: true)
 		"/api/users/areas"(controller: "Area", action: "updateUserArea", method: "PUT", parseRequest: true)
+		
+		//Test notify service
+		"/api/users/notify"(controller: "user", action: "testNotification", method: "GET", parseRequest: true)
+		
+		
 			
 		
 	}

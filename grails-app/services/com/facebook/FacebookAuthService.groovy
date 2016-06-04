@@ -130,7 +130,7 @@ class FacebookAuthService {
 
 		FacebookUser fbUser = FacebookUser.findByUid(uid)
 		fbUser.accessToken = token
-		fbUser.accessTokenExpires = expiredDate
+		fbUser.accessTokenExpires = Long.valueOf(expiredDate)
 		fbUser.save(failOnError: true)
 		return fbUser
 	}

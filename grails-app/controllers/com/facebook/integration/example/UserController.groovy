@@ -5,6 +5,7 @@ package com.facebook.integration.example
 import static org.springframework.http.HttpStatus.*
 
 import com.facebook.FacebookAuthService;
+import com.notification.NotificationService
 import com.user.UserService
 
 import grails.transaction.Transactional
@@ -18,11 +19,11 @@ class UserController {
     static responseFormats = ['json', 'xml']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 	
-	def beforeInterceptor = [action: this.&authorize, except: ['create', 'checkToken', 'authenticate']]
+	def beforeInterceptor = [action: this.&authorize, except: ['create', 'checkToken', 'authenticate', 'testNotification']]
 	
 	FacebookAuthService facebookAuthService;
 	UserService userService;
-	
+	NotificationService notificationService;
 	
 	
 	def authenticate() {
@@ -200,6 +201,14 @@ class UserController {
         //respond User.list(params), [status: OK]
 		respond FacebookUser.list(), [status: OK]
     }
+	
+	
+	def testNotification() {
+		
+		User user = User.findById(34)
+		
+		notificationService.notifyApplicationUser(user, "Znaleziono nowe wydarzenie w pobliżu", "Nowe wydarzenie ", 1)
+	}
 /*
     @Transactional
     def save(User userInstance) {
