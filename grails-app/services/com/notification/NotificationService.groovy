@@ -23,8 +23,6 @@ class NotificationService {
 	def notifyApplicationUser(User user, String message, String title, Integer type, def eventId) {
 		 
 		String appHeader = "key=AIzaSyAt9WmW8RR9bWqSq23OAas9ZgO9eqwM5ps"
-		
-		notifyUsersAboutEvent(user)
 
 		def http = new HTTPBuilder( 'https://gcm-http.googleapis.com/gcm/send' )
 		http.setHeaders([Authorization: appHeader])
