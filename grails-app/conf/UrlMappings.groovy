@@ -23,6 +23,7 @@ class UrlMappings {
 		"/api/events"(controller: "event", action: "index", method: "GET", parseRequest: true)
 		"/api/events/adjust"(controller: "event", action: "adjustEvents", method: "GET", parseRequest: true)
 		"/api/events"(controller: "event", action: "save", method: "POST", parseRequest: true)
+		"/api/events/$id"(controller: "event", action: "getEvent", method: "GET", parseRequest: true)
 		"/api/events/$id"(controller: "event", action: "delete", method: "DELETE", parseRequest: true)
 		"/api/events/apply/$id"(controller: "event", action: "applyToEvent", method: "PUT", parseRequest: true)
 		"/api/events/appliers/accept/$id"(controller: "event", action: "acceptAppliers", method: "POST", parseRequest: true)

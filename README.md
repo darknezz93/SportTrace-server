@@ -355,6 +355,24 @@ Zwracane statusy:
  - 404 - wydarzenie o podanym id nie istnieje w serwisie
 
 
+## POBRANIE WYDARZENIA O PODANYM ID
+
+Zapytanie: 
+```sh
+https://sporttrace.herokuapp.com/api/events/1
+```
+Wymagane parametry:
+ - id - identyfikator wydarzenia
+
+Format przesyłanych parametrów: **W zapytaniu**
+
+Metoda: **GET**
+
+Zwracane statusy:
+ - 200 - wydarzenia zostało poprawnie zwrócone
+ - 401 - nieudana autoryzacja
+ - 404 - wydarzenie o podanym id nie istnieje w serwisie
+
 
 ## POBRANIE WSZYSTKICH KATEGORII SPORTOWYCH
 

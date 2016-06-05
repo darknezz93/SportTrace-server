@@ -247,6 +247,20 @@ class EventController {
     }
 	
 	
+	def getEvent() {
+		def id = params.id
+		
+		Event event = Event.findById(id)
+		
+		if(!event) {
+			render status: NOT_FOUND
+			return
+		}
+		
+		respond event, [status: OK]
+	}
+	
+	
 
 	
 	/**
